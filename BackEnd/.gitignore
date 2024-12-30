@@ -5,4 +5,4 @@
 my_pgpass.conf
 pg_service.conf
 .env
-**settings.py
+**/mysite/settings.py
