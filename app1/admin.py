@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Competition, Competitor, Competitor_Level, City, Brackets
+from .models import Competition, Competitor, Competitor_Level, City, Brackets
 # Register your models here.
 
 admin.site.register(Competition)

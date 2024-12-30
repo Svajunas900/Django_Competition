@@ -2,5 +2,7 @@
 **/__pycache__
 **/migrations
 **/__init__.py
-.my_pgpass
-.pg_service.conf
+my_pgpass.conf
+pg_service.conf
+.env
+**settings.py
