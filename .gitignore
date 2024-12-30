@@ -1,0 +1,6 @@
+/myvenv
+db.sqlite3
+/templates
+**/__pycache__
+**/migrations
+**/__init__.py
