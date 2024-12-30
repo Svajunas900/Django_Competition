@@ -1,0 +1,25 @@
+services:
+  # frontend:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: dockerfiles/python.dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - backend_network
+    env_file:
+      - ./Backend/.env
+    depends_on:
+      - postgresdb
+  
+  postgresdb:
+    image: postgres:alpine
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./Backend/.env
+    networks:
+      - backend_network
+networks:
+  backend_network:
