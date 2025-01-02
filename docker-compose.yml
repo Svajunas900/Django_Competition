@@ -30,7 +30,13 @@ services:
       - "5432:5432"
     env_file:
       - ./backend/.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - app_network
+
 networks:
   app_network:
+
+volumes:
+  postgres_data:
