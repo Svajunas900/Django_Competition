@@ -1,6 +1,6 @@
-/myvenv
+**/myvenv
 **/__pycache__
 **/migrations
 **/__init__.py
-.env
+**.env
 **/mysite/settings.py
