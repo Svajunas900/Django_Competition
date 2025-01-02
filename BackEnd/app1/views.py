@@ -43,7 +43,7 @@ class CreateCompetitionView(GroupRequiredMixin, FormView):
     def form_valid(self, form):
         name = form["name"].value()
         date_time = form["datetime"].value()
-        competition = Competition(id=3, name=name, date=date_time)
+        competition = Competition(name=name, date=date_time)
         competition.save()
         return super().form_valid(form)
     
