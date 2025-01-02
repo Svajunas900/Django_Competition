@@ -5,20 +5,17 @@
 <div class="header">
     <div class="form-container">
         <div class="filter-container">
-        <div class="text">
-        <h4>Filter By</h4>
-        </div>
-        
-        <form class="form" method="get">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton">
+               Filter by
+              </button>
+        <form class="form-with-animation" method="get">
             {% csrf_token %}
-            <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Age</label>
               {{ form.age }}
               <label for="exampleInputEmail1" class="form-label">Belt</label>
               {{ form.belt }}
               <label for="exampleInputEmail1" class="form-label">Weight</label>
               {{ form.weight }}
-            </div>
             <button type="submit" class="btn btn-primary">Apply Filter</button>
         </form>
     </div>
@@ -47,4 +44,17 @@
     </div>
 
 </div>
+{% endblock %}
+{% block javascript %}
+<script>
+    let dropdown = document.getElementById("dropdownMenuButton")
+    console.log("Help")
+    console.log(dropdown)
+    dropdown.addEventListener("click", ()=>{
+        let form = document.getElementsByClassName("form-with-animation")[0]
+        form.classList.toggle("open")
+        console.log(form)
+        console.log("Help")
+    })
+</script>
 {% endblock %}
