@@ -4,7 +4,6 @@ from django.http import HttpResponseForbidden
 from .forms import CompetitionForm, CompetitorForm, FilterForm
 from .models import (Competition, Weight, Age, Belt, Competitor, 
                      CompetitorLevel, City)
-import datetime
 # Create your views here.
 
 
@@ -26,7 +25,7 @@ class HomePageView(TemplateView):
         return context
 
 
-class CompetitionView(GroupRequiredMixin, TemplateView):
+class CompetitionView(TemplateView):
     template_name = "competition.html"
 
     def get_context_data(self, **kwargs):
@@ -61,6 +60,7 @@ class RegistrationView(ListView):
     model = Competitor
     form_class = FilterForm
     context_object_name = "competitors"
+    paginate_by = 5
 
     def get_queryset(self):
         queryset = Competitor.objects.all()

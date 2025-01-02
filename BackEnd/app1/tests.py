@@ -1,5 +1,6 @@
 from django.test import TestCase
-from .models import City, Competition, Competitor, CompetitorLevel, Brackets
+from .models import (City, Competition, Competitor, CompetitorLevel, Brackets,
+                     Age, Belt, Weight)
 # Create your tests here.
 
 
@@ -34,3 +35,24 @@ class BracketsTestCase(TestCase):
         Brackets.objects.create()
         Brackets.objects.create()
         Brackets.objects.create()
+
+
+class WeightTestCase(TestCase):
+    def setUp(self):
+        Weight.objects.create(weight="50-60")
+        Weight.objects.create(weight="60-70")
+        Weight.objects.create(weight="70-80")
+
+
+class AgeTestCase(TestCase):
+    def setUp(self):
+        Age.objects.create(age="13-18")
+        Age.objects.create(age="18-23")
+        Age.objects.create(age="23-28")
+
+
+class BeltTestCase(TestCase):
+    def setUp(self):
+        Belt.objects.create(belt="White")
+        Belt.objects.create(belt="Purple")
+        Belt.objects.create(belt="Black")
