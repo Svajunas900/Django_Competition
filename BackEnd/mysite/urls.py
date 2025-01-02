@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from app1.views import (HomePageView, ResultsView, BracketsView, 
-                        CompetitionView, RegistrationView, Competitor_RegistrationsView, 
+                        CompetitionView, RegistrationView, CompetitorRegistrationsView, 
                         CreateCompetitionView)
 
 urlpatterns = [

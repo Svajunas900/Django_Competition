@@ -30,7 +30,7 @@ class City(models.Model):
         return f"City: {self.city}"
 
 
-class Competitor_Level(models.Model):
+class CompetitorLevel(models.Model):
     level = models.CharField(max_length=50)
 
     def __str__(self):
@@ -53,7 +53,7 @@ class Competition(models.Model):
 class Competitor(models.Model):
     name = models.CharField(max_length=50)
     age = models.ForeignKey(Age, on_delete=models.CASCADE)
-    level = models.ForeignKey(Competitor_Level, on_delete=models.CASCADE)
+    level = models.ForeignKey(CompetitorLevel, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
     weight = models.ForeignKey(Weight, on_delete=models.CASCADE)

@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseForbidden
 from .forms import CompetitionForm, CompetitorForm, FilterForm
 from .models import (Competition, Weight, Age, Belt, Competitor, 
-                     Competitor_Level, City)
+                     CompetitorLevel, City)
 import datetime
 # Create your views here.
 
@@ -84,7 +84,7 @@ class RegistrationView(ListView):
         return context
 
 
-class Competitor_RegistrationsView(FormView):
+class CompetitorRegistrationsView(FormView):
     template_name = "competitor_registration.html"
     form_class = CompetitorForm
     success_url = "/"
@@ -102,7 +102,7 @@ class Competitor_RegistrationsView(FormView):
         belt = Belt.objects.get(pk=belt_id)
         age = Age.objects.get(pk=age_id)
         competition_id = Competition.objects.get(pk=competition_id)
-        level = Competitor_Level.objects.get(pk=level_id)
+        level = CompetitorLevel.objects.get(pk=level_id)
         competitor = Competitor(name=name, age=age, level=level, city=city, competition=competition_id, belt=belt, weight=weight)
         competitor.save()
         return super().form_valid(form)

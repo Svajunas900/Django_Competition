@@ -1,5 +1,5 @@
 from django import forms
-from .models import Age, Belt, Weight, Competition, City, Competitor_Level
+from .models import Age, Belt, Weight, Competition, City, CompetitorLevel
 
 
 class CompetitionForm(forms.Form):
@@ -13,7 +13,7 @@ class CompetitionForm(forms.Form):
 class CompetitorForm(forms.Form):
     name = forms.CharField(label="Name", widget=forms.TextInput(attrs={"class": "form-control"}))
     age = forms.ModelChoiceField(queryset=Age.objects.all(), widget=forms.Select(attrs={"class": "form-control"}) )
-    level = forms.ModelChoiceField(queryset=Competitor_Level.objects.all(), widget=forms.Select(attrs={"class": "form-select"}))
+    level = forms.ModelChoiceField(queryset=CompetitorLevel.objects.all(), widget=forms.Select(attrs={"class": "form-select"}))
     city = forms.ModelChoiceField(queryset=City.objects.all(), widget=forms.Select(attrs={"class": "form-select"}))
     competition = forms.ModelChoiceField(queryset=Competition.objects.all(), widget=forms.Select(attrs={"class": "form-select"}))
     belt = forms.ModelChoiceField(queryset=Belt.objects.all(), widget=forms.Select(attrs={"class": "form-select"}))
