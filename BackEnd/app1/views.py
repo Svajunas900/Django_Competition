@@ -1,8 +1,9 @@
-from django.views.generic import TemplateView, FormView
+from django.views.generic import TemplateView, FormView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseForbidden
-from .forms import CompetitionForm
-from .models import Competition
+from .forms import CompetitionForm, CompetitorForm, FilterForm
+from .models import (Competition, Weight, Age, Belt, Competitor, 
+                     Competitor_Level, City)
 import datetime
 # Create your views here.
 
@@ -43,22 +44,68 @@ class CreateCompetitionView(GroupRequiredMixin, FormView):
     def form_valid(self, form):
         name = form["name"].value()
         date_time = form["datetime"].value()
-        competition = Competition(name=name, date=date_time)
+        age_id = form["age"].value()
+        belt_id = form["belt"].value()
+        weight_id = form["weight"].value()
+        print(age_id, belt_id, weight_id)
+        weight = Weight.objects.get(pk=weight_id)
+        belt = Belt.objects.get(pk=belt_id)
+        age = Age.objects.get(pk=age_id)
+        competition = Competition(name=name, date=date_time, age=age, belt=belt, weight=weight)
         competition.save()
         return super().form_valid(form)
     
 
-class RegistrationView(TemplateView):
+class RegistrationView(ListView):
     template_name = "registration.html"
+    model = Competitor
+    form_class = FilterForm
+    context_object_name = "competitors"
+
+    def get_queryset(self):
+        queryset = Competitor.objects.all()
+        form = FilterForm(self.request.GET)
+        if form.is_valid():
+            age = form.cleaned_data.get("age")
+            belt = form.cleaned_data.get("belt")   
+            weight = form.cleaned_data.get("weight")
+            if age:
+                 queryset = queryset.filter(age=age)
+            if belt:
+                 queryset = queryset.filter(belt=belt)
+            if weight:
+                queryset = queryset.filter(weight=weight)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["form"] = FilterForm(self.request.GET)
         context["is_organizer"] = self.request.user.groups.filter(name="Organizers").exists()
         return context
 
 
-class Competitor_RegistrationsView(TemplateView):
+class Competitor_RegistrationsView(FormView):
     template_name = "competitor_registration.html"
+    form_class = CompetitorForm
+    success_url = "/"
+
+    def form_valid(self, form):
+        name = form["name"].value()
+        age_id = form["age"].value()
+        level_id = form["level"].value()
+        city_id = form["city"].value()
+        belt_id = form["belt"].value()
+        weight_id = form["weight"].value()
+        competition_id = form["competition"].value()
+        city = City.objects.get(pk=city_id)
+        weight = Weight.objects.get(pk=weight_id)
+        belt = Belt.objects.get(pk=belt_id)
+        age = Age.objects.get(pk=age_id)
+        competition_id = Competition.objects.get(pk=competition_id)
+        level = Competitor_Level.objects.get(pk=level_id)
+        competitor = Competitor(name=name, age=age, level=level, city=city, competition=competition_id, belt=belt, weight=weight)
+        competitor.save()
+        return super().form_valid(form)
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -10,8 +10,11 @@ h1{
     align-items: center;
 }
 
+
+
 .form-container{
     display: flex;
+    flex-direction: column;
     background-color: silver;
     height: 70vh;
     width: 70vw;

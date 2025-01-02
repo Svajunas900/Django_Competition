@@ -2,15 +2,21 @@ from django.db import models
 
 
 class Age(models.Model):
-    age = models.IntegerField()
+    age = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"Age: {self.age}"
 
 
 class Belt(models.Model):
     belt = models.CharField(max_length=50)
 
+    def __str__(self):
+        return f"Belt: {self.belt}"
+
 
 class Weight(models.Model):
-    weight = models.FloatField()
+    weight = models.CharField(max_length=50)
 
     def __str__(self):
         return f"Weight: {self.weight}"
@@ -54,7 +60,7 @@ class Competitor(models.Model):
     belt = models.ForeignKey(Belt, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Name: {self.name}, Age: {self.age}, Level: {self.level}, City: {self.city}, Competition: {self.competition}"   
+        return f"Name: {self.name}, {self.age}, {self.level}, {self.city}, Competition: {self.competition}, {self.weight}, {self.belt}"   
 
 
 class Brackets(models.Model):

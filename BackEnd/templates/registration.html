@@ -1,1 +1,30 @@
 {% extends "base.html" %}
+{% load static %}
+{% block style %}<link rel="stylesheet" href="{% static 'css/style.css' %}">{% endblock %}
+{% block body %}
+<div class="header">
+
+    <div class="form-container">
+        
+        <form class="form" method="get">
+            {% csrf_token %}
+            <div class="mb-3">
+            <div>
+              <label for="exampleInputEmail1" class="form-label">Filter by</label>
+            </div>
+              <label for="exampleInputEmail1" class="form-label">Age</label>
+              {{ form.age }}
+              <label for="exampleInputEmail1" class="form-label">Belt</label>
+              {{ form.belt }}
+              <label for="exampleInputEmail1" class="form-label">Weight</label>
+              {{ form.weight }}
+            </div>
+            <button type="submit" class="btn btn-primary">Apply Filter</button>
+        </form>
+    {% for competitor in object_list %}
+    <li>{{ competitor }}</li>
+    {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

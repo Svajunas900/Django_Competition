@@ -1,1 +1,40 @@
 {% extends "base.html" %}
+{% load static %}
+{% block style %}<link rel="stylesheet" href="{% static 'css/style.css' %}">{% endblock %}
+{% block body %}
+<div class="header">
+<div class="form-container">
+<form class="form" method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Name</label>
+      {{ form.name }}
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Age</label>
+      {{ form.age }}
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Level</label>
+      {{ form.level}}
+    </div> 
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">City</label>
+      {{ form.city }}
+    </div> 
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Competition</label>
+        {{ form.competition }}
+      </div> 
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Belt</label>
+      {{ form.belt }}
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Weight</label>
+      {{ form.weight }}
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+</div>
+{% endblock %}
