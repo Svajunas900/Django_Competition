@@ -7,6 +7,7 @@ from .forms import (CompetitionForm, CompetitorForm, FilterForm,
 from .models import (Competition, Weight, Age, Belt, Competitor, 
                      CompetitorLevel, City, Logs)
 from django.contrib.auth import authenticate, login
+from django.shortcuts import render
 # Create your views here.
 
 
@@ -155,16 +156,17 @@ class LoginView(FormView):
     success_url = "/"
 
     def form_valid(self, form):
+
         if self.request.method == "POST":
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
-            user = authenticate(username=username, password=password)
+            user = authenticate(self.request, username=username, password=password)
             if user is not None:
                 login(self.request, user)
                 log = Logs.objects.create(user=user, action="LOGGED_IN")
                 log.save()
             else:
-                pass
+                render(self.request, "login.html", {"error": "Invalid credentials"})
         return super().form_valid(form)
 
 
@@ -178,8 +180,10 @@ class RegisterView(FormView):
             email = form.cleaned_data.get("email")
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
-            user = User.objects.create(username=username, email=email, password=password)
+            user = User.objects.create(username=username, email=email)
+            user.set_password(password)
             user.save()
+            login(self.request, user)
         return super().form_valid(form)
     
 
