@@ -5,7 +5,7 @@ from django.http import HttpResponseForbidden
 from .forms import (CompetitionForm, CompetitorForm, FilterForm, 
                     LoginForm, RegisterForm)
 from .models import (Competition, Weight, Age, Belt, Competitor, 
-                     CompetitorLevel, City, Logs)
+                     CompetitorLevel, City, Logs, UserProfile)
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render
 # Create your views here.
@@ -187,3 +187,12 @@ class RegisterView(FormView):
         return super().form_valid(form)
     
 
+class CompetitorsView(ListView):
+    template_name = "competitors.html"
+    model = UserProfile
+    context_object_name = "competitors"
+    paginate_by = 5
+
+    def get_queryset(self):
+        queryset = UserProfile.objects.all()
+        return queryset
