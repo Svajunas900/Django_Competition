@@ -1,9 +1,12 @@
 from django.views.generic import TemplateView, FormView, ListView
+from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseForbidden
-from .forms import CompetitionForm, CompetitorForm, FilterForm
+from .forms import (CompetitionForm, CompetitorForm, FilterForm, 
+                    LoginForm, RegisterForm)
 from .models import (Competition, Weight, Age, Belt, Competitor, 
-                     CompetitorLevel, City)
+                     CompetitorLevel, City, Logs)
+from django.contrib.auth import authenticate, login
 # Create your views here.
 
 
@@ -28,6 +31,12 @@ class HomePageView(TemplateView):
 class CompetitionView(TemplateView):
     template_name = "competition.html"
 
+    def get(self, request, *args, **kwargs):
+        user = self.request.user
+        log = Logs.objects.create(user=user, action="LOOKING_FOR_EVENT")
+        log.save()
+        return super().get(request, *args, **kwargs)
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["is_organizer"] = self.request.user.groups.filter(name="Organizers").exists()
@@ -75,6 +84,8 @@ class RegistrationView(ListView):
                  queryset = queryset.filter(belt=belt)
             if weight:
                 queryset = queryset.filter(weight=weight)
+        if self.request.user.is_authenticated:
+            queryset = queryset.filter(name=self.request.user.username)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -88,6 +99,11 @@ class CompetitorRegistrationsView(FormView):
     template_name = "competitor_registration.html"
     form_class = CompetitorForm
     success_url = "/"
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['name'] = self.request.user.username
+        return initial
 
     def form_valid(self, form):
         name = form["name"].value()
@@ -104,6 +120,8 @@ class CompetitorRegistrationsView(FormView):
         competition_id = Competition.objects.get(pk=competition_id)
         level = CompetitorLevel.objects.get(pk=level_id)
         competitor = Competitor(name=name, age=age, level=level, city=city, competition=competition_id, belt=belt, weight=weight)
+        log = Logs.objects.create(user=self.request.user, action="REGISTERED_TO_NEW_EVENT")
+        log.save()
         competitor.save()
         return super().form_valid(form)
     
@@ -133,7 +151,35 @@ class ResultsView(TemplateView):
 
 class LoginView(FormView):
     template_name = "login.html"
+    form_class = LoginForm
+    success_url = "/"
+
+    def form_valid(self, form):
+        if self.request.method == "POST":
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(self.request, user)
+                log = Logs.objects.create(user=user, action="LOGGED_IN")
+                log.save()
+            else:
+                pass
+        return super().form_valid(form)
 
 
 class RegisterView(FormView):
     template_name = "register.html"
+    form_class = RegisterForm
+    success_url = "/"
+
+    def form_valid(self, form):
+        if self.request.method == "POST":
+            email = form.cleaned_data.get("email")
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = User.objects.create(username=username, email=email, password=password)
+            user.save()
+        return super().form_valid(form)
+    
+

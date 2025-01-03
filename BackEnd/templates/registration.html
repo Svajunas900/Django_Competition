@@ -19,10 +19,20 @@
             <button type="submit" class="btn btn-primary">Apply Filter</button>
         </form>
     </div>
+    
     {% for competitor in object_list %}
+    {% if user.is_authenticated %}
+    {% if user.username == competitor.name %}
     <ul>
-    <li>{{ competitor }}</li>
-</ul>
+        <li>{{ competitor }}</li>
+    </ul>
+    
+    {% endif %}
+    {% else %}
+    <ul>
+        <li>{{ competitor }}</li>
+    </ul>
+    {% endif %}
     {% endfor %}
     <div class="pagination">
         <span class="step-links">

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+import datetime
 
 class UserProfile(models.Model):
     competitor = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -80,6 +80,21 @@ class Brackets(models.Model):
         return f"Competitor: {self.competitor}, Competition: {self.competition}, Lap: {self.lap}"
     
 
+ACTION_CHOICES = {
+    "LOGGED_IN": "LOGGED IN",
+    "LOOKING_FOR_EVENT": "LOOKING FOR EVENTS",
+    "REGISTERED_TO_NEW_EVENT": "REGISTERED_TO_NEW_EVENT",
+    "USER_REGISTERED": "USER_REGISTERED"
+}
+
+
+class Logs(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    action = models.CharField(choices=ACTION_CHOICES)
+    time = models.DateTimeField(default=datetime.datetime.now())
+
+    def __str__(self):
+        return f"{self.user}, Action: {self.action}, Time: {self.time}"
 
 
 

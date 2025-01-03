@@ -24,3 +24,14 @@ class FilterForm(forms.Form):
     weight = forms.ModelChoiceField(queryset=Weight.objects.all(), widget=forms.Select(attrs={"class": "form-select"}), required=False)
     age = forms.ModelChoiceField(queryset=Age.objects.all(), widget=forms.Select(attrs={"class": "form-select"}), required=False)
     belt = forms.ModelChoiceField(queryset=Belt.objects.all(), widget=forms.Select(attrs={"class": "form-select"}), required=False)
+
+
+class RegisterForm(forms.Form):
+    username = forms.CharField(max_length=50, widget=forms.TextInput(attrs={"class": "form-control"}))
+    email = forms.EmailField(max_length=255, widget=forms.EmailInput(attrs={"class": "form-control"}))
+    password = forms.CharField(max_length=50, widget=forms.PasswordInput(attrs={"class": "form-control"}))
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=50, widget=forms.TextInput(attrs={"class": "form-control"}))
+    password = forms.CharField(max_length=50, widget=forms.PasswordInput(attrs={"class": "form-control"}))
