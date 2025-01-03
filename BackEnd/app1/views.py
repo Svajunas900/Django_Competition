@@ -129,3 +129,11 @@ class ResultsView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["is_organizer"] = self.request.user.groups.filter(name="Organizers").exists()
         return context
+    
+
+class LoginView(FormView):
+    template_name = "login.html"
+
+
+class RegisterView(FormView):
+    template_name = "register.html"
