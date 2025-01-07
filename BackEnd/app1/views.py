@@ -5,9 +5,11 @@ from django.http import HttpResponseForbidden
 from .forms import (CompetitionForm, CompetitorForm, FilterForm, 
                     LoginForm, RegisterForm)
 from .models import (Competition, Weight, Age, Belt, Competitor, 
-                     CompetitorLevel, City, Logs, UserProfile)
+                     CompetitorLevel, City, Logs, UserProfile,
+                     UserPayment, PaymentMethod)
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+import datetime
 # Create your views here.
 
 
@@ -96,7 +98,7 @@ class RegistrationView(ListView):
         return context
 
 
-class CompetitorRegistrationsView(FormView):
+class CompetitorRegistrationsView(LoginRequiredMixin, FormView):
     template_name = "competitor_registration.html"
     form_class = CompetitorForm
     success_url = "/"
@@ -114,16 +116,26 @@ class CompetitorRegistrationsView(FormView):
         belt_id = form["belt"].value()
         weight_id = form["weight"].value()
         competition_id = form["competition"].value()
+        payment_method_id = form["payment_method"].value()
+        amount = form["amount"].value()
         city = City.objects.get(pk=city_id)
         weight = Weight.objects.get(pk=weight_id)
         belt = Belt.objects.get(pk=belt_id)
         age = Age.objects.get(pk=age_id)
-        competition_id = Competition.objects.get(pk=competition_id)
+        competition = Competition.objects.get(pk=competition_id)
         level = CompetitorLevel.objects.get(pk=level_id)
-        competitor = Competitor(name=name, age=age, level=level, city=city, competition=competition_id, belt=belt, weight=weight)
+        end_registration_date = competition.end_registration_date.strftime("%Y %m %d %H %M %S")
+        date = end_registration_date.split()
+        end = datetime.datetime(int(date[0]), int(date[1]), int(date[2]), int(date[3]), int(date[4]), int(date[5]))
+        if datetime.datetime.now() > end:
+            return redirect("home")
+        payment_method = PaymentMethod.objects.get(pk=payment_method_id)
+        user_payment = UserPayment.objects.create(user_id=self.request.user, payment_method=payment_method, payment_amount=amount, date_time=datetime.datetime.now())
+        competitor = Competitor(name=name, age=age, level=level, city=city, competition=competition, belt=belt, weight=weight)
         log = Logs.objects.create(user=self.request.user, action="REGISTERED_TO_NEW_EVENT")
         log.save()
         competitor.save()
+        user_payment.save()
         return super().form_valid(form)
     
     def get_context_data(self, **kwargs):
@@ -196,3 +208,4 @@ class CompetitorsView(ListView):
     def get_queryset(self):
         queryset = UserProfile.objects.all()
         return queryset
+

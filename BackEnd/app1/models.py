@@ -9,6 +9,7 @@ class UserProfile(models.Model):
     def __str__(self):
         return f"Competitor ID: {self.competitor.id}, fibo_number: {self.fibo_number}"
 
+
 class Age(models.Model):
     age = models.CharField(max_length=20)
 
@@ -53,6 +54,7 @@ class Competition(models.Model):
     weight = models.ForeignKey(Weight, on_delete=models.CASCADE)
     belt = models.ForeignKey(Belt, on_delete=models.CASCADE)
     age = models.ForeignKey(Age, on_delete=models.CASCADE)
+    end_registration_date = models.DateTimeField(default=datetime.datetime.now())
 
     def __str__(self):
         return f"Date: {self.date}, Name: {self.name}"
@@ -97,5 +99,22 @@ class Logs(models.Model):
         return f"{self.user}, Action: {self.action}, Time: {self.time}"
 
 
+class PaymentMethod(models.Model):
+    method = models.CharField(choices={"Crypto": "Crypto",
+                                       "VirtualAccount": "VirtualAccount",
+                                       "BankCard": "BankCard"})
+
+    def __str__(self):
+        return f"{self.method}"
+
+
+class UserPayment(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    payment_method = models.ForeignKey(PaymentMethod, on_delete=models.CASCADE)
+    payment_amount = models.FloatField()
+    date_time = models.DateTimeField(default=datetime.datetime.now())
+
+    def __str__(self):
+        return f"User: {self.user_id}, Method: {self.payment_method}, Amount: {self.payment_amount}, Time: {self.date_time}"
 
 

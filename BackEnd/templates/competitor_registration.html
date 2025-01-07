@@ -3,38 +3,60 @@
 {% block style %}<link rel="stylesheet" href="{% static 'css/style.css' %}">{% endblock %}
 {% block body %}
 <div class="header">
-<div class="form-container">
-<form class="form" method="post">
-    {% csrf_token %}
-    <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Name</label>
-      {{ form.name }}
-    </div>
-    <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Age</label>
-      {{ form.age }}
-    <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Level</label>
-      {{ form.level}}
-    </div> 
-    <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">City</label>
-      {{ form.city }}
-    </div> 
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Competition</label>
-        {{ form.competition }}
+  
+<div class="header-container ">
+<form class="form-container" method="post">
+  {% csrf_token %}
+  <div id="form1" class="form form-grid active">
+      <div class="mb-3 form-grid-item-1 ">
+        <label for="exampleInputEmail1" class="form-label">Name</label>
+        {{ form.name }}
+      </div>
+      <div class="mb-3 form-grid-item-2 ">
+        <label for="exampleInputEmail1" class="form-label">Age</label>
+        {{ form.age }}
+      </div>
+      <div class="mb-3 form-grid-item-3 ">
+        <label for="exampleInputEmail1" class="form-label">Level</label>
+        {{ form.level}}
       </div> 
-    <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Belt</label>
-      {{ form.belt }}
+      <div class="mb-3 form-grid-item-4 ">
+        <label for="exampleInputEmail1" class="form-label">City</label>
+        {{ form.city }}
+      </div> 
+      <div class="mb-3 form-grid-item-5 ">
+          <label for="exampleInputEmail1" class="form-label">Competition</label>
+          {{ form.competition }}
+        </div> 
+      <div class="mb-3 form-grid-item-6 ">
+        <label for="exampleInputEmail1" class="form-label">Belt</label>
+        {{ form.belt }}
+      </div>
+      <div class="mb-3 form-grid-item-7 ">
+        <label for="exampleInputEmail1" class="form-label">Weight</label>
+        {{ form.weight }}
+      </div>
+      <button type="button" id="next1" class="btn btn-primary">Next</button>
     </div>
-    <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Weight</label>
-      {{ form.weight }}
+
+  <div id="form2" class="form form-grid" method="post">
+    {% csrf_token %}
+    <div class="mb-3 form-grid-item-8">
+      <label for="exampleInputEmail1" class="form-label">Payment method</label>
+      {{ form.payment_method }}
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+    <div class="mb-3 form-grid-item-9">
+      <label for="exampleInputEmail1" class="form-label">Amount</label>
+      {{ form.amount }}
+  </div>
+  <button type="button" id="prev2" class="btn btn-secondary">Previous</button>
+  <button type="submit" id="next2" class="btn btn-primary">Submit</button>
+</div>
+</form>
 </div>
 </div>
+{% endblock %}
+{% block javascript %}
+
+<script src="{% static 'js/script.js' %}"></script>
 {% endblock %}

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import (Competition, Competitor, CompetitorLevel, City, 
-                     Brackets, Weight, Age, Belt, UserProfile, Logs)
+                     Brackets, Weight, Age, Belt, UserProfile, Logs,
+                     PaymentMethod, UserPayment)
 # Register your models here.
 
 admin.site.register(Competition)
@@ -13,3 +14,5 @@ admin.site.register(Age)
 admin.site.register(Belt)
 admin.site.register(UserProfile)
 admin.site.register(Logs)
+admin.site.register(PaymentMethod)
+admin.site.register(UserPayment)
