@@ -7,7 +7,8 @@ class UserProfile(models.Model):
     fibo_number = models.IntegerField(unique=True)
 
     def __str__(self):
-        return f"Competitor ID: {self.competitor.id}, fibo_number: {self.fibo_number}"
+        return f"""Competitor ID: {self.competitor.id}, 
+        fibo_number: {self.fibo_number}"""
 
 
 class Age(models.Model):
@@ -57,7 +58,10 @@ class Competition(models.Model):
     end_registration_date = models.DateTimeField(default=datetime.datetime.now())
 
     def __str__(self):
-        return f"Date: {self.date}, Name: {self.name}"
+        return f"""Date: {self.date.strftime("%Y-%m-%d %H:%M:%S")}, 
+        Name: {self.name}, 
+        Registration end: {self.end_registration_date.strftime("%Y-%m-%d %H:%M:%S")},
+        """
 
 
 class Competitor(models.Model):
@@ -70,7 +74,13 @@ class Competitor(models.Model):
     belt = models.ForeignKey(Belt, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Name: {self.name}, {self.age}, {self.level}, {self.city}, Competition: {self.competition}, {self.weight}, {self.belt}"   
+        return f"""Name: {self.name},
+          {self.age}, 
+          {self.level}, 
+          {self.city}, 
+          Competition: {self.competition}, 
+          {self.weight}, 
+          {self.belt}"""   
 
 
 class Brackets(models.Model):
@@ -79,7 +89,9 @@ class Brackets(models.Model):
     lap = models.IntegerField()
 
     def __str__(self):
-        return f"Competitor: {self.competitor}, Competition: {self.competition}, Lap: {self.lap}"
+        return f"""Competitor: {self.competitor}, 
+        Competition: {self.competition}, 
+        Lap: {self.lap}"""
     
 
 ACTION_CHOICES = {
@@ -115,6 +127,9 @@ class UserPayment(models.Model):
     date_time = models.DateTimeField(default=datetime.datetime.now())
 
     def __str__(self):
-        return f"User: {self.user_id}, Method: {self.payment_method}, Amount: {self.payment_amount}, Time: {self.date_time}"
+        return f"""User: {self.user_id}, 
+        Method: {self.payment_method}, 
+        Amount: {self.payment_amount}, 
+        Time: {self.date_time}"""
 
 

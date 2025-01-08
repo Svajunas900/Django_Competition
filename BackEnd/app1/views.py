@@ -31,8 +31,9 @@ class HomePageView(TemplateView):
         return context
 
 
-class CompetitionView(TemplateView):
+class CompetitionsView(ListView):
     template_name = "competition.html"
+    model = Competition
 
     def get(self, request, *args, **kwargs):
         user = self.request.user
@@ -44,6 +45,10 @@ class CompetitionView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["is_organizer"] = self.request.user.groups.filter(name="Organizers").exists()
         return context
+
+    def get_queryset(self):
+        queryset = Competition.objects.all()
+        return queryset
 
 
 class CreateCompetitionView(GroupRequiredMixin, FormView):
