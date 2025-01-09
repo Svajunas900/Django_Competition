@@ -34,11 +34,13 @@ class HomePageView(TemplateView):
 class CompetitionsView(ListView):
     template_name = "competition.html"
     model = Competition
-
+    paginate_by = 5
+    
     def get(self, request, *args, **kwargs):
         user = self.request.user
-        log = Logs.objects.create(user=user, action="LOOKING_FOR_EVENT")
-        log.save()
+        if user.is_authenticated:
+            log = Logs.objects.create(user=user, action="LOOKING_FOR_EVENT")
+            log.save()
         return super().get(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs):

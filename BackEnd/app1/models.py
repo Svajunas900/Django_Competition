@@ -51,7 +51,7 @@ class CompetitorLevel(models.Model):
 # Use datetime.datetime in date field
 class Competition(models.Model):
     date = models.DateTimeField()
-    name = models.CharField(max_length=50)
+    name = models.CharField(unique=True, max_length=50)
     weight = models.ForeignKey(Weight, on_delete=models.CASCADE)
     belt = models.ForeignKey(Belt, on_delete=models.CASCADE)
     age = models.ForeignKey(Age, on_delete=models.CASCADE)

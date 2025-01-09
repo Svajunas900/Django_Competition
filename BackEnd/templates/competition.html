@@ -4,11 +4,15 @@
 {% block body %}
 <div class="header">
     <div class="header-container">
-        <h2>Competitors</h2>
-    {% for competitor in object_list %}
+        <h2>Competitions</h2>
+    {% for competition in object_list %}
     
     <ul>
-        <li>{{ competitor }}</li>
+        <li>
+            <span>Name of competition:</span> <span>{{ competition.name }}</span><br>
+            <span>Competition date:</span> <span>{{ competition.date }}</span><br>
+            <span>End of Registration:</span> <span>{{ competition.end_registration_date }}</span>
+        </li>
     </ul>
     
     {% endfor %}

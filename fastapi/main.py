@@ -5,22 +5,16 @@ from fastapi import Depends
 from sqlmodel import Session
 from SqlDbConnection import SqlDbConnection
 import json
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from datetime import datetime
+from my_celery_app.tasks import find_competitions
+from celery.result import AsyncResult
 
 
-chrome_options = Options()
-chrome_options.add_argument("--headless")  
-chrome_options.add_argument("--disable-gpu")  
-chrome_options.add_argument("--no-sandbox")  
-
-driver = webdriver.Chrome(options=chrome_options)
 app = FastAPI()
 sql_connection = SqlDbConnection()
-url = ""
-
-driver.get(url)
-
+result = find_competitions.delay()
+competition = AsyncResult(result.id)
+print(competition)
 
 def get_session():
     with Session(sql_connection) as session:
@@ -37,12 +31,26 @@ def read_root():
 
 @app.get("/active_competition")
 def get_active_competition(session: SessionDep):
-    return json.dumps({"Hello": "World"})
+    active_competitions = {}
+    date_format = "%b. %d, %Y, %I:%M %p"  
+    # for key, value in competitions.items():
+    #     date_string = value[1].replace('a.m.', 'AM').replace('p.m.', 'PM')
+    #     end = datetime.strptime(date_string, date_format)   
+    #     if end > datetime.now():
+    #         active_competitions[key] = [value]
+    return json.dumps(active_competitions)
 
 
 @app.get("/closed_competition")
 def get_closed_competition(session: SessionDep):
-    return json.dumps({"Hello": "World"})
+    closed_competitions = {}
+    date_format = "%b. %d, %Y, %I:%M %p"  
+    # for key, value in competitions.items():
+    #     date_string = value[1].replace('a.m.', 'AM').replace('p.m.', 'PM')
+    #     end = datetime.strptime(date_string, date_format)   
+    #     if end < datetime.now():
+    #         closed_competitions[key] = value
+    return json.dumps(closed_competitions)
 
 
 if __name__ == "__main__":

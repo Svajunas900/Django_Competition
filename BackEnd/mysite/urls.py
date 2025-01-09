@@ -21,4 +21,5 @@ from app1.urls import app1_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include(app1_urls)),
+    path('captcha/', include('captcha.urls')),
 ]

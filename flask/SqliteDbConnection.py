@@ -2,7 +2,7 @@ from sqlmodel import create_engine
 
 
 
-sqlite_file_name = "results.sqlite"
+sqlite_file_name = "flask_users.sqlite"
 sqlite_url = f"sqlite:///{sqlite_file_name}"
 
 
