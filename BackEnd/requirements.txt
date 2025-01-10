@@ -2,3 +2,4 @@ django==5.1.4
 python-dotenv==1.0.1
 psycopg2==2.9.3
 requests==2.32.2
+django-simple-captcha==0.6.0

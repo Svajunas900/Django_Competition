@@ -6,8 +6,10 @@ COPY requirements.txt /python_fastapi/
 
 RUN pip install -r requirements.txt
 
+RUN pip install "fastapi[standard]"
+
 COPY . /python_fastapi
 
-CMD [ "python" "main.py" ]
+CMD [  "fastapi", "run", "main.py", "--port", "7000" ]
 
 EXPOSE 7000
