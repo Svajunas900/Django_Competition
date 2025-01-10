@@ -2,12 +2,16 @@ from django import forms
 from .models import Age, Belt, Weight, Competition, City, CompetitorLevel, PaymentMethod
 from captcha.fields import CaptchaField
 
+
+FORM_SELECT_CLASS = "form-select"
+
+
 class CompetitionForm(forms.Form):
     name = forms.CharField(label="Name", widget=forms.TextInput(attrs={"class": "form-control"}))
     datetime = forms.DateTimeField(label="Date and time", widget=forms.DateTimeInput(attrs={"class": "form-control"}) )
-    age = forms.ModelChoiceField(queryset=Age.objects.all(), widget=forms.Select(attrs={"class": "form-select"}))
-    belt = forms.ModelChoiceField(queryset=Belt.objects.all(), widget=forms.Select(attrs={"class": "form-select"}))
-    weight = forms.ModelChoiceField(queryset=Weight.objects.all(), widget=forms.Select(attrs={"class": "form-select"}))
+    age = forms.ModelChoiceField(queryset=Age.objects.all(), widget=forms.Select(attrs={"class": FORM_SELECT_CLASS}))
+    belt = forms.ModelChoiceField(queryset=Belt.objects.all(), widget=forms.Select(attrs={"class": FORM_SELECT_CLASS}))
+    weight = forms.ModelChoiceField(queryset=Weight.objects.all(), widget=forms.Select(attrs={"class": FORM_SELECT_CLASS}))
     
 
 class CompetitorForm(forms.Form):
@@ -22,9 +26,9 @@ class CompetitorForm(forms.Form):
     amount = forms.FloatField(label="Amount", widget=forms.TextInput(attrs={"class": "form-select form-item"}))
 
 class FilterForm(forms.Form):
-    weight = forms.ModelChoiceField(queryset=Weight.objects.all(), widget=forms.Select(attrs={"class": "form-select"}), required=False)
-    age = forms.ModelChoiceField(queryset=Age.objects.all(), widget=forms.Select(attrs={"class": "form-select"}), required=False)
-    belt = forms.ModelChoiceField(queryset=Belt.objects.all(), widget=forms.Select(attrs={"class": "form-select"}), required=False)
+    weight = forms.ModelChoiceField(queryset=Weight.objects.all(), widget=forms.Select(attrs={"class": FORM_SELECT_CLASS}), required=False)
+    age = forms.ModelChoiceField(queryset=Age.objects.all(), widget=forms.Select(attrs={"class": FORM_SELECT_CLASS}), required=False)
+    belt = forms.ModelChoiceField(queryset=Belt.objects.all(), widget=forms.Select(attrs={"class": FORM_SELECT_CLASS}), required=False)
 
 
 class RegisterForm(forms.Form):
