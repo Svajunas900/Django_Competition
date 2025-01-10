@@ -4,7 +4,7 @@ WORKDIR /django_app
 
 COPY requirements.txt /django_app/
 
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt 
 
 COPY . .
 

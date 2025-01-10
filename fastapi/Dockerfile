@@ -4,9 +4,8 @@ WORKDIR /python_fastapi
 
 COPY requirements.txt /python_fastapi/
 
-RUN pip install -r requirements.txt
-
-RUN pip install "fastapi[standard]"
+RUN pip install -r requirements.txt \
+&& pip install "fastapi[standard]"
 
 COPY . /python_fastapi
 
