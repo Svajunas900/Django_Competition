@@ -9,6 +9,7 @@ from datetime import timezone, timedelta, datetime
 app = Flask(__name__)
 app.secret_key = 'super secret key'
 app.config['SESSION_TYPE'] = 'filesystem'
+app.config['WTF_CSRF_ENABLED'] = False
 
 
 try:
