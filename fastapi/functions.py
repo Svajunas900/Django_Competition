@@ -21,11 +21,11 @@ def find_competitions():
     try:
       competition = driver.find_element(by=By.XPATH, value=f'/html/body/div/div/ul[{counter}]/li/span[2]')
       competition_date = driver.find_element(by=By.XPATH, value=f'/html/body/div/div/ul[{counter}]/li/span[4]')
-      competition_end_Date = driver.find_element(by=By.XPATH, value=f'/html/body/div/div/ul[{counter}]/li/span[6]')
-      competitions[competition.text] = [competition_date.text, competition_end_Date.text]
+      competition_end_date = driver.find_element(by=By.XPATH, value=f'/html/body/div/div/ul[{counter}]/li/span[6]')
+      competitions[competition.text] = [competition_date.text, competition_end_date.text]
       counter += 1
       
-    except:
+    except TimeoutError:
       print(f"Something went wrong here Counter: {counter}")
       break
   driver.close()
