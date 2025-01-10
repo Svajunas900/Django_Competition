@@ -17,13 +17,13 @@ class CompetitionForm(forms.Form):
 class CompetitorForm(forms.Form):
     name = forms.CharField(label="Name", widget=forms.TextInput(attrs={"class": "form-control form-item"}))
     age = forms.ModelChoiceField(queryset=Age.objects.all(), widget=forms.Select(attrs={"class": "form-control form-item "}) )
-    level = forms.ModelChoiceField(queryset=CompetitorLevel.objects.all(), widget=forms.Select(attrs={"class": "form-select form-item"}))
-    city = forms.ModelChoiceField(queryset=City.objects.all(), widget=forms.Select(attrs={"class": "form-select form-item"}))
-    competition = forms.ModelChoiceField(queryset=Competition.objects.all(), widget=forms.Select(attrs={"class": "form-select form-item"}))
-    belt = forms.ModelChoiceField(queryset=Belt.objects.all(), widget=forms.Select(attrs={"class": "form-select form-item"}))
-    weight = forms.ModelChoiceField(queryset=Weight.objects.all(), widget=forms.Select(attrs={"class": "form-select form-item"}))
-    payment_method = forms.ModelChoiceField(queryset=PaymentMethod.objects.all(), widget=forms.Select(attrs={"class": "form-select form-item"}))
-    amount = forms.FloatField(label="Amount", widget=forms.TextInput(attrs={"class": "form-select form-item"}))
+    level = forms.ModelChoiceField(queryset=CompetitorLevel.objects.all(), widget=forms.Select(attrs={"class": f"{FORM_SELECT_CLASS} form-item"}))
+    city = forms.ModelChoiceField(queryset=City.objects.all(), widget=forms.Select(attrs={"class": f"{FORM_SELECT_CLASS} form-item"}))
+    competition = forms.ModelChoiceField(queryset=Competition.objects.all(), widget=forms.Select(attrs={"class": f"{FORM_SELECT_CLASS} form-item"}))
+    belt = forms.ModelChoiceField(queryset=Belt.objects.all(), widget=forms.Select(attrs={"class": f"{FORM_SELECT_CLASS} form-item"}))
+    weight = forms.ModelChoiceField(queryset=Weight.objects.all(), widget=forms.Select(attrs={"class": f"{FORM_SELECT_CLASS} form-item"}))
+    payment_method = forms.ModelChoiceField(queryset=PaymentMethod.objects.all(), widget=forms.Select(attrs={"class": f"{FORM_SELECT_CLASS} form-item"}))
+    amount = forms.FloatField(label="Amount", widget=forms.TextInput(attrs={"class": f"{FORM_SELECT_CLASS} form-item"}))
 
 class FilterForm(forms.Form):
     weight = forms.ModelChoiceField(queryset=Weight.objects.all(), widget=forms.Select(attrs={"class": FORM_SELECT_CLASS}), required=False)
