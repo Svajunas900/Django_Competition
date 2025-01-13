@@ -12,7 +12,7 @@ options=chrome_options
 
 def find_competitions():
   driver = webdriver.Chrome(options=chrome_options)
-  url = "backend/competitions"
+  url = "http://localhost/competitions"
   driver.get(url)
   competitions = {}
   counter = 1
