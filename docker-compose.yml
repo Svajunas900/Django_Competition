@@ -29,11 +29,11 @@ services:
     container_name: celery_worker
     volumes:
       - ./fastapi/celery_app:/celery_app
+    networks:
+      - app_network
     depends_on:
       - redis
       - selenium_scraper
-    networks:
-      - app_network
 
   celery_beat:
     build:
@@ -41,12 +41,12 @@ services:
       dockerfile: dockerfiles/celery.dockerfile
     container_name: celery_beat
     command: celery -A celery_app beat --loglevel=info
+    networks:
+      - app_network
     depends_on:
       - redis
       - backend
       - selenium_scraper
-    networks:
-      - app_network
 
   redis:
     image: redis:7.4.2
@@ -66,10 +66,10 @@ services:
       dockerfile: dockerfiles/python.dockerfile
     ports:
       - "8000:8000"
-    networks:
-      - app_network
     env_file:
       - ./backend/.env
+    networks:
+      - app_network
     depends_on:
       - postgresdb
   
