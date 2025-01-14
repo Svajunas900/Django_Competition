@@ -1,8 +1,8 @@
-from tasks import add
+from tasks import find_competitions
 import time 
 
 
-result = add.delay(4, 6)
+result = find_competitions.delay(4, 6)
 
 
 while not result.ready():

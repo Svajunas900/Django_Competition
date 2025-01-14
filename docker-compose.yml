@@ -20,6 +20,7 @@ services:
       - app_network
     depends_on:
       - backend
+      - selenium_scraper
   
   celery_worker:
     build:
@@ -30,9 +31,10 @@ services:
       - ./fastapi/celery_app:/celery_app
     depends_on:
       - redis
+      - selenium_scraper
     networks:
       - app_network
-  
+
   celery_beat:
     build:
       context: ./fastapi
@@ -42,6 +44,7 @@ services:
     depends_on:
       - redis
       - backend
+      - selenium_scraper
     networks:
       - app_network
 
@@ -78,6 +81,13 @@ services:
       - ./backend/.env
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  selenium_scraper:
+    image: selenium/standalone-chrome
+    ports: 
+      - "4444:4444"
     networks:
       - app_network
 
