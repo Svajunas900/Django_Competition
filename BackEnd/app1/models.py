@@ -15,21 +15,21 @@ class Age(models.Model):
     age = models.CharField(max_length=20)
 
     def __str__(self):
-        return f"Age: {self.age}"
+        return f"{self.age}"
 
 
 class Belt(models.Model):
     belt = models.CharField(max_length=50)
 
     def __str__(self):
-        return f"Belt: {self.belt}"
+        return f"{self.belt}"
 
 
 class Weight(models.Model):
     weight = models.CharField(max_length=50)
 
     def __str__(self):
-        return f"Weight: {self.weight}"
+        return f"{self.weight}"
 
 
 # Create your models here.
@@ -37,14 +37,14 @@ class City(models.Model):
     city = models.CharField(max_length=50)
 
     def __str__(self):
-        return f"City: {self.city}"
+        return f"{self.city}"
 
 
 class CompetitorLevel(models.Model):
     level = models.CharField(max_length=50)
 
     def __str__(self):
-        return f"Level: {self.level}"
+        return f"{self.level}"
     
 
 # Note
@@ -104,7 +104,7 @@ ACTION_CHOICES = {
 
 class Logs(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    action = models.CharField(choices=ACTION_CHOICES)
+    action = models.CharField(max_length=50, choices=ACTION_CHOICES)
     time = models.DateTimeField(default=datetime.datetime.now())
 
     def __str__(self):
@@ -112,7 +112,7 @@ class Logs(models.Model):
 
 
 class PaymentMethod(models.Model):
-    method = models.CharField(choices={"Crypto": "Crypto",
+    method = models.CharField(max_length=50, choices={"Crypto": "Crypto",
                                        "VirtualAccount": "VirtualAccount",
                                        "BankCard": "BankCard"})
 

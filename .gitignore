@@ -1,0 +1,3 @@
+**.sqlite3
+BackEnd/flask_file_uploads/**
+backup.json

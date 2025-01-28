@@ -77,17 +77,26 @@ def logout():
 @app.route("/protected", methods=["GET", "POST"])
 @login_required
 def protected():
-  print("Hello")
+  conn = PostgresConnection()
+  cursor = conn.cursor()
   if request.method == "POST":
     print("WOrld")
     if 'file' not in request.files:
         return redirect(request.url)
     file = request.files['file']
+    file_data = file.read()
     if file.filename == '':
         return redirect(url_for("home"))
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        try:
+          cursor.execute("INSERT INTO files (filename, file_data) VALUES (%s, %s)", 
+                        (file.filename, file_data))
+          conn.commit()
+        except Exception as e:
+          conn.rollback()
+          return jsonify({"error": str(e)}), 500
         return redirect(url_for('home'))
   return render_template("protected.html")
 
