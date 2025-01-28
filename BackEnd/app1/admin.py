@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (Competition, Competitor, CompetitorLevel, City, 
                      Brackets, Weight, Age, Belt, UserProfile, Logs,
-                     PaymentMethod, UserPayment)
+                     PaymentMethod, UserPayment, FlaskFiles)
 # Register your models here.
 
 admin.site.register(Competition)
@@ -16,3 +16,4 @@ admin.site.register(UserProfile)
 admin.site.register(Logs)
 admin.site.register(PaymentMethod)
 admin.site.register(UserPayment)
+admin.site.register(FlaskFiles)

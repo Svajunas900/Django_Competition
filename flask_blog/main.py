@@ -9,6 +9,9 @@ import os
 import sys
 from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
+from django.core.files import File
+import datetime
+
 
 load_dotenv()
 
@@ -80,19 +83,18 @@ def protected():
   conn = PostgresConnection()
   cursor = conn.cursor()
   if request.method == "POST":
-    print("WOrld")
     if 'file' not in request.files:
         return redirect(request.url)
     file = request.files['file']
-    file_data = file.read()
     if file.filename == '':
         return redirect(url_for("home"))
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        django_file = File(file)
         try:
-          cursor.execute("INSERT INTO files (filename, file_data) VALUES (%s, %s)", 
-                        (file.filename, file_data))
+          cursor.execute("INSERT INTO app1_flaskfiles (filename, filename_data, uploaded_at) VALUES (%s, %s, %s)", 
+                        (file.filename, file.filename, datetime.datetime.now()))
           conn.commit()
         except Exception as e:
           conn.rollback()

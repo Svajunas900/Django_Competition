@@ -133,3 +133,7 @@ class UserPayment(models.Model):
         Time: {self.date_time}"""
 
 
+class FlaskFiles(models.Model):
+    filename = models.CharField(max_length=100)
+    filename_data = models.FileField()
+    uploaded_at = models.DateTimeField(default=datetime.datetime.now())

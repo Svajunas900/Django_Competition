@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (HomePageView, ResultsView, BracketsView, 
                         CompetitionsView, RegistrationView, CompetitorRegistrationsView, 
                         CreateCompetitionView, LoginView, RegisterView,
-                        CompetitorsView)
+                        CompetitorsView, FlaskFileView)
 from django.contrib.auth.views import LogoutView
 
 app1_urls = [
@@ -17,4 +17,5 @@ app1_urls = [
     path("login", LoginView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
     path("competitors", CompetitorsView.as_view(), name="competitors"),
+    path("flask/<str:file>", FlaskFileView.as_view(), name="FlaskFileView")
 ]

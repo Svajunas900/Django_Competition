@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, FormView, ListView
+from django.views.generic import TemplateView, FormView, ListView, View
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseForbidden
@@ -6,11 +6,14 @@ from .forms import (CompetitionForm, CompetitorForm, FilterForm,
                     LoginForm, RegisterForm)
 from .models import (Competition, Weight, Age, Belt, Competitor, 
                      CompetitorLevel, City, Logs, UserProfile,
-                     UserPayment, PaymentMethod)
+                     UserPayment, PaymentMethod, FlaskFiles)
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 import datetime
 import pandas as pd
+from django.http import HttpResponse, Http404
+import os 
+from django.conf import settings
 # Create your views here.
 
 
@@ -25,52 +28,6 @@ class GroupRequiredMixin(LoginRequiredMixin):
 
 class HomePageView(TemplateView):
     template_name = "index.html"
-
-    # def get(self, request, *args, **kwargs):
-    #     competitors_list = Competitor.objects.all()
-    #     logs_list = Logs.objects.all()
-    #     competitors = []
-    #     logs = {}
-    #     competitors_id = []
-    #     competitors_name = []
-    #     competitors_age = []
-    #     competitors_level = []
-    #     competitors_city = []
-    #     competitors_competition = []
-    #     competitors_weight = []
-    #     competitors_belt = []
-    #     logs_l = []
-    #     for x in competitors_list:
-    #         competitors_id.append(x.pk)
-    #         competitors_name.append(x.name)
-    #         competitors_age.append(x.age)
-    #         competitors_level.append(x.level)
-    #         competitors_city.append(x.city)
-    #         competitors_competition.append(x.competition)
-    #         competitors_weight.append(x.weight)
-    #         competitors_belt.append(x.belt)
-        
-    #     for x in logs_list:
-    #         if x.action == "LOGGED_IN":
-    #             if x.user in logs and logs[x.user] < x.time:
-    #                 logs[x.user] = x.time
-    #             else:
-    #                 logs[x.user] = x.time
-    #     for x in range(len(competitors_name)):
-    #         if competitors_name[x] in logs:
-    #             logs_l.append(logs[competitors_name])
-    #         else:
-    #             logs_l.append("Null")
-    #     print(competitors, logs)
-    #     data = {"id": competitors_id,
-    #             "name": competitors_name,
-    #             "age": competitors_age,
-    #             "sport_level": competitors_level,
-    #             "competition": competitors_competition,
-    #             }
-    #     df = pd.DataFrame(data)
-    #     df.to_csv("competitors.csv")
-    #     return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -263,3 +220,15 @@ class CompetitorsView(ListView):
         queryset = UserProfile.objects.all()
         return queryset
 
+
+class FlaskFileView(View):
+    def get(self, request, file):
+        file_directory = os.path.join(settings.BASE_DIR, "flask_file_uploads")  
+        file_path = os.path.join(file_directory, file)
+        if not os.path.exists(file_path):
+            raise Http404("File not found")
+        print("yes")
+        with open(file_path, 'r') as f:
+            content = f.read()
+        print(content)
+        return HttpResponse(content, content_type="text/plain")
