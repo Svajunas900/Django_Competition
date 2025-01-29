@@ -221,14 +221,18 @@ class CompetitorsView(ListView):
         return queryset
 
 
-class FlaskFileView(View):
-    def get(self, request, file):
+class FlaskFileView(TemplateView):
+    template_name = "flask_files.html"
+
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        file = kwargs.get("file")
+        context["file"] = file
         file_directory = os.path.join(settings.BASE_DIR, "flask_file_uploads")  
         file_path = os.path.join(file_directory, file)
         if not os.path.exists(file_path):
             raise Http404("File not found")
-        print("yes")
         with open(file_path, 'r') as f:
-            content = f.read()
-        print(content)
-        return HttpResponse(content, content_type="text/plain")
+            context["content"] = f.read()
+        return context

@@ -6,19 +6,17 @@ from forms import LoginForm
 from django.contrib.auth.hashers import check_password
 import django
 import os
-import sys
 from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 from django.core.files import File
 import datetime
-
+import sys
 
 load_dotenv()
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 UPLOAD_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), '..')) + '/backend/flask_file_uploads'
-
 ALLOWED_EXTENSIONS = {'txt', 'csv'}
 
 
@@ -106,4 +104,4 @@ def protected():
 
 if __name__ == "__main__":
   app.secret_key = os.getenv("FLASK_SECRET_KEY")
-  app.run(debug=True)
+  app.run(debug=True, port=5000)

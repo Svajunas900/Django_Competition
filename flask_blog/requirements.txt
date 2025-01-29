@@ -1,0 +1,5 @@
+flask==3.1.0
+wtforms==3.2.1
+python-dotenv==1.0.1
+psycopg2==2.9.10
+passlib==1.7.4

@@ -1,0 +1,15 @@
+FROM python:3.10
+
+WORKDIR /flask_blog
+
+COPY requirements.txt /flask_blog/
+
+RUN pip install -r requirements.txt
+
+ENV DJANGO_SETTINGS_MODULE=backend
+
+COPY . /flask_blog/
+
+CMD [ "python", "main.py" ]
+
+EXPOSE 5000
